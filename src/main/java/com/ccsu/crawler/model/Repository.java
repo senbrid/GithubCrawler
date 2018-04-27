@@ -11,6 +11,8 @@ public class Repository {
 
     private String description;
 
+    private String defaultBranch;
+
     private Date createdAt;
 
     private Date updatedAt;
@@ -30,23 +32,6 @@ public class Repository {
     private Long developerid;
 
     private Date updated;
-
-    public Repository(Long id, String name, String fullName, String description, Date createdAt, Date updatedAt, Date pushedAt, Integer size, Integer starCount, Integer watchersCount, Integer forksCount, String language, Long developerid,Date updated) {
-        this.id = id;
-        this.name = name;
-        this.fullName = fullName;
-        this.description = description;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.pushedAt = pushedAt;
-        this.size = size;
-        this.starCount = starCount;
-        this.watchersCount = watchersCount;
-        this.forksCount = forksCount;
-        this.language = language;
-        this.developerid = developerid;
-        this.updated = updated;
-    }
 
     public Repository() {
         super();
@@ -82,6 +67,14 @@ public class Repository {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public String getDefaultBranch() {
+        return defaultBranch;
+    }
+
+    public void setDefaultBranch(String defaultBranch) {
+        this.defaultBranch = defaultBranch == null ? null : defaultBranch.trim();
     }
 
     public Date getCreatedAt() {

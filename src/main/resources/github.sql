@@ -1,5 +1,5 @@
 /*
- Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
  Source Server         : localhost_3306
  Source Server Type    : MySQL
@@ -11,7 +11,7 @@
  Target Server Version : 50639
  File Encoding         : 65001
 
- Date: 27/04/2018 17:46:25
+ Date: 28/04/2018 01:17:58
 */
 
 SET NAMES utf8mb4;
@@ -62,9 +62,18 @@ CREATE TABLE `tb_developer`  (
   `following` int(11) NULL DEFAULT NULL COMMENT '关注数',
   `created_at` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  `updated` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '数据更新时间',
+  `updated` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '数据更新时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tb_developer
+-- ----------------------------
+INSERT INTO `tb_developer` VALUES (10634210, 'AdiChat', 'https://avatars3.githubusercontent.com/u/10634210?v=4', NULL, NULL, NULL, NULL, NULL, NULL, 'User', 0, 0, 0, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '2018-04-28 01:09:34');
+INSERT INTO `tb_developer` VALUES (10829987, 'DavexPro', 'https://avatars0.githubusercontent.com/u/10829987?v=4', NULL, NULL, NULL, NULL, NULL, NULL, 'User', 0, 0, 0, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '2018-04-28 01:16:27');
+INSERT INTO `tb_developer` VALUES (22593101, 'TKaxv-7S', 'https://avatars2.githubusercontent.com/u/22593101?v=4', NULL, NULL, NULL, NULL, NULL, NULL, 'User', 0, 0, 0, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '2018-04-28 01:09:34');
+INSERT INTO `tb_developer` VALUES (30211186, 'JokeChu', 'https://avatars1.githubusercontent.com/u/30211186?v=4', 'WestChu', NULL, NULL, '', NULL, 'ChangSha of HuNan', 'User', 11, 2, 2, '2017-07-16 18:56:24', '2018-03-19 08:55:43', '2018-04-28 01:09:33');
+INSERT INTO `tb_developer` VALUES (38024683, 'MIUICoder', 'https://avatars2.githubusercontent.com/u/38024683?v=4', NULL, NULL, NULL, NULL, NULL, NULL, 'User', 0, 0, 0, '1970-01-01 08:00:00', '1970-01-01 08:00:00', '2018-04-28 01:16:27');
 
 -- ----------------------------
 -- Table structure for tb_follow
@@ -74,9 +83,18 @@ CREATE TABLE `tb_follow`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序列',
   `followers` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '被关注的人',
   `following` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '关注的人',
-  `updated` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `updated` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tb_follow
+-- ----------------------------
+INSERT INTO `tb_follow` VALUES (5, 'jokeChu', 'AdiChat', '2018-04-28 01:09:34');
+INSERT INTO `tb_follow` VALUES (6, 'jokeChu', 'TKaxv-7S', '2018-04-28 01:09:34');
+INSERT INTO `tb_follow` VALUES (7, 'TKaxv-7S', 'DavexPro', '2018-04-28 01:16:27');
+INSERT INTO `tb_follow` VALUES (8, 'TKaxv-7S', 'JokeChu', '2018-04-28 01:16:27');
+INSERT INTO `tb_follow` VALUES (9, 'TKaxv-7S', 'MIUICoder', '2018-04-28 01:16:27');
 
 -- ----------------------------
 -- Table structure for tb_fork
@@ -131,12 +149,21 @@ CREATE TABLE `tb_repository`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_seed`;
 CREATE TABLE `tb_seed`  (
-  `id` int(11) NOT NULL COMMENT '序列',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序列',
   `seedLogin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户login',
   `state` int(11) NULL DEFAULT NULL COMMENT '种子状态：0、无效 1、有效',
-  `updated` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `updated` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tb_seed
+-- ----------------------------
+INSERT INTO `tb_seed` VALUES (4, 'AdiChat', 1, '2018-04-28 01:09:34');
+INSERT INTO `tb_seed` VALUES (5, 'TKaxv-7S', 1, '2018-04-28 01:09:34');
+INSERT INTO `tb_seed` VALUES (6, 'DavexPro', 1, '2018-04-28 01:16:27');
+INSERT INTO `tb_seed` VALUES (7, 'JokeChu', 1, '2018-04-28 01:16:27');
+INSERT INTO `tb_seed` VALUES (8, 'MIUICoder', 1, '2018-04-28 01:16:27');
 
 -- ----------------------------
 -- Table structure for tb_star

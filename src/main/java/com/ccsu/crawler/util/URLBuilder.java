@@ -7,11 +7,21 @@ public class URLBuilder {
     /**
      * 通过 用户名 构建用户URL
      *
-     * @param userName nama user.
+     * @param login nama user.
      * @return String类型的URL地址
      */
-    public static String urlDeveBuilder(String userName) {
-        return USRS_PREFIX + userName;
+    public static String urlDeveBuilder(String login) {
+        return USRS_PREFIX + login;
+    }
+
+    /**
+     * 通过 用户名 和 followType 构建follow URL
+     *
+     * @param login nama user.
+     * @return String类型的URL地址
+     */
+    public static String urlFollowBuilder(String login , String followType) {
+        return USRS_PREFIX + login + "/" + followType;
     }
 
     /**

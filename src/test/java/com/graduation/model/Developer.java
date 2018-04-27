@@ -1,4 +1,4 @@
-package com.ccsu.crawler.model;
+package com.graduation.model;
 
 import java.util.Date;
 
@@ -34,6 +34,25 @@ public class Developer {
     private Date updatedAt;
 
     private Date updated;
+
+    public Developer(Long id, String login, String avatarUrl, String name, String company, String location, String blog, String email, String bio, String type, Integer publicRepos, Integer followers, Integer following, Date createdAt, Date updatedAt, Date updated) {
+        this.id = id;
+        this.login = login;
+        this.avatarUrl = avatarUrl;
+        this.name = name;
+        this.company = company;
+        this.location = location;
+        this.blog = blog;
+        this.email = email;
+        this.bio = bio;
+        this.type = type;
+        this.publicRepos = publicRepos;
+        this.followers = followers;
+        this.following = following;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.updated = updated;
+    }
 
     public Developer() {
         super();

@@ -1,5 +1,6 @@
 package com.ccsu.crawler.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ccsu.crawler.model.Developer;
@@ -28,7 +29,7 @@ public class JSONParse {
         for (int i = 0; i < jsonArray.size(); i++) {
             if (jsonArray.getJSONObject(i).getString("owner") != null) {
                 JSONObject object = JSONObject.parseObject(jsonArray.getJSONObject(i).getString("owner"));
-                jsonArray.getJSONObject(i).put("ownerId", object.getString("id"));
+                jsonArray.getJSONObject(i).put("ownerId", object.getString("login"));
             }
             jsonObjectList.add(jsonArray.getJSONObject(i));
         }
@@ -44,6 +45,9 @@ public class JSONParse {
     public static Date UTCStringtODate(String UTCStr){
         String format;
         Date date = null;
+        if(UTCStr == null || UTCStr.isEmpty()){
+            return null;
+        }
         if(UTCStr.length() == 20){
             format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         }else {
@@ -83,9 +87,10 @@ public class JSONParse {
             developer.setPublicRepos(jsonObjectList.get(i).getInteger("public_repos"));
             developer.setFollowers(jsonObjectList.get(i).getInteger("followers"));
             developer.setFollowing(jsonObjectList.get(i).getInteger("following"));
+            developer.setType(jsonObjectList.get(i).getString("type"));
+            developer.setLocation(jsonObjectList.get(i).getString("location"));
             developer.setCreatedAt(UTCStringtODate(jsonObjectList.get(i).getString("created_at")));
             developer.setUpdatedAt(UTCStringtODate(jsonObjectList.get(i).getString("updated_at")));
-            developer.setUpdated(new Date());
             developerList.add(developer);
         }
         return developerList;
@@ -120,6 +125,7 @@ public class JSONParse {
             repository.setName(jsonObjectList.get(i).getString("name"));
             repository.setFullName(jsonObjectList.get(i).getString("full_name"));
             repository.setDescription(jsonObjectList.get(i).getString("description"));
+            repository.setDefaultBranch(jsonObjectList.get(i).getString("default_branch"));
             repository.setCreatedAt(UTCStringtODate(jsonObjectList.get(i).getString("created_at")));
             repository.setUpdatedAt(UTCStringtODate(jsonObjectList.get(i).getString("updated_at")));
             repository.setPushedAt(UTCStringtODate(jsonObjectList.get(i).getString("pushed_at")));
