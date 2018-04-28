@@ -13,8 +13,8 @@ public class FollowDao {
 
     private static String INSERT_SQL = "insert into tb_follow(followers,following) values (?,?)";
     private static String SELECT_SQL = "select * from tb_follow where login = ?";
-    private static String UPDATE_SQL = "UPDATE tb_follow set state = 0 where id = ?";
-    private static String SELECTBYLOGIN_SQL = "select * from tb_follow where state = 1 limit 0,1";
+    //private static String UPDATE_SQL = "UPDATE tb_follow set state = 0 where id = ?";
+    private static String SELECTDUPLICATE_SQL = "select * from tb_follow where followers = ? and following = ?";
 
     public FollowDao(){
         connection = MysqlConnect.getConnect();
@@ -32,11 +32,12 @@ public class FollowDao {
         }
     }
 
-    public int update(int id){
+    public int selectDuplicate(String followers,String following){
         try {
-            PreparedStatement ps = connection.prepareStatement(UPDATE_SQL);
-            ps.setInt(1,id);
-            return ps.executeUpdate();
+            PreparedStatement ps = connection.prepareStatement(SELECTDUPLICATE_SQL);
+            ps.setString(1,followers);
+            ps.setString(2,following);
+            return ps.executeQuery().getRow();
         } catch (SQLException e) {
             e.printStackTrace();
             return 0;
@@ -47,7 +48,7 @@ public class FollowDao {
         ResultSet rs;
         Seed seed = null;
         try {
-            PreparedStatement ps = connection.prepareStatement(SELECTBYLOGIN_SQL);
+            PreparedStatement ps = connection.prepareStatement(SELECT_SQL);
             rs = ps.executeQuery();
             while (rs.next()){
                 seed = new Seed();

@@ -8,7 +8,7 @@
     <properties resource="jdbc.properties"></properties>
 
     <!--指定特定数据库的jdbc驱动jar包的位置-->
-    <classPathEntry location="C:\Users\Joke\.m2\repository\mysql\mysql-connector-java\5.1.5\mysql-connector-java-5.1.5.jar"/>
+    <classPathEntry location="C:\Users\93587\.m2\repository\mysql\mysql-connector-java\5.1.5\mysql-connector-java-5.1.5.jar"/>
     <context id="default" targetRuntime="MyBatis3">
 
         <!-- optional，旨在创建class时，对注释进行控制 -->
@@ -73,7 +73,7 @@
         <table tableName="tb_follow" domainObjectName="Follow"/>
         <table tableName="tb_branch" domainObjectName="Branch"/>
         <table tableName="tb_contributor" domainObjectName="Contributor"/>
-        <table tableName="tb_seed" domainObjectName="Repository"/>
+        <table tableName="tb_seed" domainObjectName="Seed"/>
         <table tableName="tb_language" domainObjectName="Language"/>
     </context>
 </generatorConfiguration>

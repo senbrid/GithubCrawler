@@ -25,36 +25,111 @@ public class RepositorySqlProvider {
     public String countByExample(RepositoryExample example) {
         BEGIN();
         SELECT("count(*)");
-        FROM("tb_seed");
+        FROM("tb_repository");
         applyWhere(example, false);
         return SQL();
     }
 
     public String deleteByExample(RepositoryExample example) {
         BEGIN();
-        DELETE_FROM("tb_seed");
+        DELETE_FROM("tb_repository");
         applyWhere(example, false);
         return SQL();
     }
 
     public String insertSelective(Repository record) {
         BEGIN();
-        INSERT_INTO("tb_seed");
+        INSERT_INTO("tb_repository");
         
         if (record.getId() != null) {
-            VALUES("id", "#{id,jdbcType=INTEGER}");
+            VALUES("id", "#{id,jdbcType=BIGINT}");
         }
         
-        if (record.getSeedlogin() != null) {
-            VALUES("seedLogin", "#{seedlogin,jdbcType=VARCHAR}");
+        if (record.getName() != null) {
+            VALUES("name", "#{name,jdbcType=VARCHAR}");
         }
         
-        if (record.getState() != null) {
-            VALUES("state", "#{state,jdbcType=INTEGER}");
+        if (record.getFullName() != null) {
+            VALUES("full_name", "#{fullName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDefaultBranch() != null) {
+            VALUES("default_branch", "#{defaultBranch,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreatedAt() != null) {
+            VALUES("created_at", "#{createdAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdatedAt() != null) {
+            VALUES("updated_at", "#{updatedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getPushedAt() != null) {
+            VALUES("pushed_at", "#{pushedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getSize() != null) {
+            VALUES("size", "#{size,jdbcType=INTEGER}");
+        }
+        
+        if (record.getStarCount() != null) {
+            VALUES("star_count", "#{starCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getWatchersCount() != null) {
+            VALUES("watchers_count", "#{watchersCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getForksCount() != null) {
+            VALUES("forks_count", "#{forksCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getLanguage() != null) {
+            VALUES("language", "#{language,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDeveloperlogin() != null) {
+            VALUES("developerLogin", "#{developerlogin,jdbcType=VARCHAR}");
         }
         
         if (record.getUpdated() != null) {
             VALUES("updated", "#{updated,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getDescription() != null) {
+            VALUES("description", "#{description,jdbcType=LONGVARCHAR}");
+        }
+        
+        return SQL();
+    }
+
+    public String selectByExampleWithBLOBs(RepositoryExample example) {
+        BEGIN();
+        if (example != null && example.isDistinct()) {
+            SELECT_DISTINCT("id");
+        } else {
+            SELECT("id");
+        }
+        SELECT("name");
+        SELECT("full_name");
+        SELECT("default_branch");
+        SELECT("created_at");
+        SELECT("updated_at");
+        SELECT("pushed_at");
+        SELECT("size");
+        SELECT("star_count");
+        SELECT("watchers_count");
+        SELECT("forks_count");
+        SELECT("language");
+        SELECT("developerLogin");
+        SELECT("updated");
+        SELECT("description");
+        FROM("tb_repository");
+        applyWhere(example, false);
+        
+        if (example != null && example.getOrderByClause() != null) {
+            ORDER_BY(example.getOrderByClause());
         }
         
         return SQL();
@@ -67,10 +142,20 @@ public class RepositorySqlProvider {
         } else {
             SELECT("id");
         }
-        SELECT("seedLogin");
-        SELECT("state");
+        SELECT("name");
+        SELECT("full_name");
+        SELECT("default_branch");
+        SELECT("created_at");
+        SELECT("updated_at");
+        SELECT("pushed_at");
+        SELECT("size");
+        SELECT("star_count");
+        SELECT("watchers_count");
+        SELECT("forks_count");
+        SELECT("language");
+        SELECT("developerLogin");
         SELECT("updated");
-        FROM("tb_seed");
+        FROM("tb_repository");
         applyWhere(example, false);
         
         if (example != null && example.getOrderByClause() != null) {
@@ -85,35 +170,114 @@ public class RepositorySqlProvider {
         RepositoryExample example = (RepositoryExample) parameter.get("example");
         
         BEGIN();
-        UPDATE("tb_seed");
+        UPDATE("tb_repository");
         
         if (record.getId() != null) {
-            SET("id = #{record.id,jdbcType=INTEGER}");
+            SET("id = #{record.id,jdbcType=BIGINT}");
         }
         
-        if (record.getSeedlogin() != null) {
-            SET("seedLogin = #{record.seedlogin,jdbcType=VARCHAR}");
+        if (record.getName() != null) {
+            SET("name = #{record.name,jdbcType=VARCHAR}");
         }
         
-        if (record.getState() != null) {
-            SET("state = #{record.state,jdbcType=INTEGER}");
+        if (record.getFullName() != null) {
+            SET("full_name = #{record.fullName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDefaultBranch() != null) {
+            SET("default_branch = #{record.defaultBranch,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreatedAt() != null) {
+            SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdatedAt() != null) {
+            SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getPushedAt() != null) {
+            SET("pushed_at = #{record.pushedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getSize() != null) {
+            SET("size = #{record.size,jdbcType=INTEGER}");
+        }
+        
+        if (record.getStarCount() != null) {
+            SET("star_count = #{record.starCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getWatchersCount() != null) {
+            SET("watchers_count = #{record.watchersCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getForksCount() != null) {
+            SET("forks_count = #{record.forksCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getLanguage() != null) {
+            SET("language = #{record.language,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDeveloperlogin() != null) {
+            SET("developerLogin = #{record.developerlogin,jdbcType=VARCHAR}");
         }
         
         if (record.getUpdated() != null) {
             SET("updated = #{record.updated,jdbcType=TIMESTAMP}");
         }
         
+        if (record.getDescription() != null) {
+            SET("description = #{record.description,jdbcType=LONGVARCHAR}");
+        }
+        
+        applyWhere(example, true);
+        return SQL();
+    }
+
+    public String updateByExampleWithBLOBs(Map<String, Object> parameter) {
+        BEGIN();
+        UPDATE("tb_repository");
+        
+        SET("id = #{record.id,jdbcType=BIGINT}");
+        SET("name = #{record.name,jdbcType=VARCHAR}");
+        SET("full_name = #{record.fullName,jdbcType=VARCHAR}");
+        SET("default_branch = #{record.defaultBranch,jdbcType=VARCHAR}");
+        SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
+        SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
+        SET("pushed_at = #{record.pushedAt,jdbcType=TIMESTAMP}");
+        SET("size = #{record.size,jdbcType=INTEGER}");
+        SET("star_count = #{record.starCount,jdbcType=INTEGER}");
+        SET("watchers_count = #{record.watchersCount,jdbcType=INTEGER}");
+        SET("forks_count = #{record.forksCount,jdbcType=INTEGER}");
+        SET("language = #{record.language,jdbcType=VARCHAR}");
+        SET("developerLogin = #{record.developerlogin,jdbcType=VARCHAR}");
+        SET("updated = #{record.updated,jdbcType=TIMESTAMP}");
+        SET("description = #{record.description,jdbcType=LONGVARCHAR}");
+        
+        RepositoryExample example = (RepositoryExample) parameter.get("example");
         applyWhere(example, true);
         return SQL();
     }
 
     public String updateByExample(Map<String, Object> parameter) {
         BEGIN();
-        UPDATE("tb_seed");
+        UPDATE("tb_repository");
         
-        SET("id = #{record.id,jdbcType=INTEGER}");
-        SET("seedLogin = #{record.seedlogin,jdbcType=VARCHAR}");
-        SET("state = #{record.state,jdbcType=INTEGER}");
+        SET("id = #{record.id,jdbcType=BIGINT}");
+        SET("name = #{record.name,jdbcType=VARCHAR}");
+        SET("full_name = #{record.fullName,jdbcType=VARCHAR}");
+        SET("default_branch = #{record.defaultBranch,jdbcType=VARCHAR}");
+        SET("created_at = #{record.createdAt,jdbcType=TIMESTAMP}");
+        SET("updated_at = #{record.updatedAt,jdbcType=TIMESTAMP}");
+        SET("pushed_at = #{record.pushedAt,jdbcType=TIMESTAMP}");
+        SET("size = #{record.size,jdbcType=INTEGER}");
+        SET("star_count = #{record.starCount,jdbcType=INTEGER}");
+        SET("watchers_count = #{record.watchersCount,jdbcType=INTEGER}");
+        SET("forks_count = #{record.forksCount,jdbcType=INTEGER}");
+        SET("language = #{record.language,jdbcType=VARCHAR}");
+        SET("developerLogin = #{record.developerlogin,jdbcType=VARCHAR}");
         SET("updated = #{record.updated,jdbcType=TIMESTAMP}");
         
         RepositoryExample example = (RepositoryExample) parameter.get("example");
@@ -123,21 +287,65 @@ public class RepositorySqlProvider {
 
     public String updateByPrimaryKeySelective(Repository record) {
         BEGIN();
-        UPDATE("tb_seed");
+        UPDATE("tb_repository");
         
-        if (record.getSeedlogin() != null) {
-            SET("seedLogin = #{seedlogin,jdbcType=VARCHAR}");
+        if (record.getName() != null) {
+            SET("name = #{name,jdbcType=VARCHAR}");
         }
         
-        if (record.getState() != null) {
-            SET("state = #{state,jdbcType=INTEGER}");
+        if (record.getFullName() != null) {
+            SET("full_name = #{fullName,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDefaultBranch() != null) {
+            SET("default_branch = #{defaultBranch,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getCreatedAt() != null) {
+            SET("created_at = #{createdAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getUpdatedAt() != null) {
+            SET("updated_at = #{updatedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getPushedAt() != null) {
+            SET("pushed_at = #{pushedAt,jdbcType=TIMESTAMP}");
+        }
+        
+        if (record.getSize() != null) {
+            SET("size = #{size,jdbcType=INTEGER}");
+        }
+        
+        if (record.getStarCount() != null) {
+            SET("star_count = #{starCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getWatchersCount() != null) {
+            SET("watchers_count = #{watchersCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getForksCount() != null) {
+            SET("forks_count = #{forksCount,jdbcType=INTEGER}");
+        }
+        
+        if (record.getLanguage() != null) {
+            SET("language = #{language,jdbcType=VARCHAR}");
+        }
+        
+        if (record.getDeveloperlogin() != null) {
+            SET("developerLogin = #{developerlogin,jdbcType=VARCHAR}");
         }
         
         if (record.getUpdated() != null) {
             SET("updated = #{updated,jdbcType=TIMESTAMP}");
         }
         
-        WHERE("id = #{id,jdbcType=INTEGER}");
+        if (record.getDescription() != null) {
+            SET("description = #{description,jdbcType=LONGVARCHAR}");
+        }
+        
+        WHERE("id = #{id,jdbcType=BIGINT}");
         
         return SQL();
     }

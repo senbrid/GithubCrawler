@@ -20,11 +20,6 @@ public class URLRequest {
         StringBuilder result = new StringBuilder();
         BufferedReader in = null;
         try {
-//            if(url.contains("?")){
-//                url += "&access_token=ef8dae6d1c237ff7eae15701fc2ad22a8cb0b58d";
-//            }else {
-//                url += "?access_token=ef8dae6d1c237ff7eae15701fc2ad22a8cb0b58d";
-//            }
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
             URLConnection connection = realUrl.openConnection();
@@ -37,7 +32,8 @@ public class URLRequest {
             connection.connect();
             // 获取所有响应头字段
             Map<String, List<String>> map = connection.getHeaderFields();
-            // 遍历所有的响应头字段
+            System.out.println("X-RateLimit-Remaining:" + map.get("X-RateLimit-Remaining"));
+//            // 遍历所有的响应头字段
 //            for (String key : map.keySet()) {
 //                System.out.println(key + "--->" + map.get(key));
 //            }

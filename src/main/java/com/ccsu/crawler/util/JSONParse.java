@@ -3,15 +3,11 @@ package com.ccsu.crawler.util;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ccsu.crawler.model.Developer;
-import com.ccsu.crawler.model.Repository;
+import com.ccsu.crawler.model.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class JSONParse {
     /**
@@ -64,6 +60,89 @@ public class JSONParse {
         calendar.set(Calendar.HOUR, calendar.get(Calendar.HOUR) + 8);
         //calendar.getTime() 返回的是Date类型，也可以使用calendar.getTimeInMillis()获取时间戳
         return calendar.getTime();
+    }
+
+    /**
+     * JSON list转换成fork list
+     *
+     * @param jsonObjectList
+     * @return List<Fork>
+     */
+    public static List<Fork> listJSONObjectToListFork(List<JSONObject> jsonObjectList) {
+        List<Fork> forkList = new ArrayList<Fork>();
+        for (int i = 0; i < jsonObjectList.size(); i++) {
+            Fork fork = new Fork();
+            fork.setForklogin(jsonObjectList.get(i).getString("ownerId"));
+            forkList.add(fork);
+        }
+        return forkList;
+    }
+
+    /**
+     * JSON list转换成fork list
+     *
+     * @param jsonObjectList
+     * @return List<Star>
+     */
+    public static List<Star> listJSONObjectToListStar(List<JSONObject> jsonObjectList) {
+        List<Star> starList = new ArrayList<Star>();
+        for (int i = 0; i < jsonObjectList.size(); i++) {
+            Star star = new Star();
+            star.setStarlogin(jsonObjectList.get(i).getString("login"));
+            starList.add(star);
+        }
+        return starList;
+    }
+
+    /**
+     * JSON list转换成fork list
+     *
+     * @param jsonObjectList
+     * @return List<Contributor>
+     */
+    public static List<Contributor> listJSONObjectToListContributor(List<JSONObject> jsonObjectList) {
+        List<Contributor> contributors = new ArrayList<Contributor>();
+        for (int i = 0; i < jsonObjectList.size(); i++) {
+            Contributor contributor = new Contributor();
+            contributor.setContributor(jsonObjectList.get(i).getString("login"));
+            contributor.setContributions(jsonObjectList.get(i).getInteger("contributions"));
+            contributors.add(contributor);
+        }
+        return contributors;
+    }
+
+    /**
+     * JSON list转换成fork list
+     *
+     * @param jsonObjectList
+     * @return List<Language>
+     */
+    public static List<Language> listJSONObjectToListLanguage(List<JSONObject> jsonObjectList) {
+        List<Language> languages = new ArrayList<Language>();
+        for (Map.Entry<String, Object> entry : jsonObjectList.get(0).entrySet()) {
+            //System.out.println(entry.getKey() + ":" + entry.getValue());
+            Language language = new Language();
+            language.setLanguage(entry.getKey());
+            language.setSize((int)entry.getValue());
+            languages.add(language);
+        }
+        return languages;
+    }
+
+    /**
+     * JSON list转换成branch list
+     *
+     * @param jsonObjectList
+     * @return List<Branch>
+     */
+    public static List<Branch> listJSONObjectToListBranch(List<JSONObject> jsonObjectList) {
+        List<Branch> branchList = new ArrayList<Branch>();
+        for (int i = 0; i < jsonObjectList.size(); i++) {
+            Branch branch = new Branch();
+            branch.setBranchname(jsonObjectList.get(i).getString("name"));
+            branchList.add(branch);
+        }
+        return branchList;
     }
 
     /**
@@ -134,7 +213,7 @@ public class JSONParse {
             repository.setWatchersCount(jsonObjectList.get(i).getInteger("watchers_count"));
             repository.setForksCount(jsonObjectList.get(i).getInteger("forks_count"));
             repository.setLanguage(jsonObjectList.get(i).getString("language"));
-            repository.setDeveloperid(jsonObjectList.get(i).getLong("ownerId"));
+            repository.setDeveloperLogin(jsonObjectList.get(i).getString("ownerId"));
             repository.setUpdated(new Date());
             repositoryList.add(repository);
         }

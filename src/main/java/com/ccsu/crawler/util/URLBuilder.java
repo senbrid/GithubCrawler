@@ -25,13 +25,33 @@ public class URLBuilder {
     }
 
     /**
-     * 通过 项目全名 构建URL
+     * 通过 用户名 构建 用户所有仓库 URL
      *
-     * @param name
+     * @param login nama user.
      * @return String类型的URL地址
      */
-    public static String urlRepoBuilder(String name) {
-        return REPO_PREFIX + name;
+    public static String urlDeveAllReposBuilder(String login) {
+        return USRS_PREFIX + login + "/repos";
+    }
+
+    /**
+     * 通过 项目全名 构建 仓库 URL
+     *
+     * @param fullName
+     * @return String类型的URL地址
+     */
+    public static String urlRepoBuilder(String fullName) {
+        return REPO_PREFIX + fullName;
+    }
+
+    /**
+     * 通过 项目全名 构建 详细信息的 URL
+     *
+     * @param fullName
+     * @return String类型的URL地址
+     */
+    public static String urlRepoPoBuilder(String fullName,String type) {
+        return REPO_PREFIX + fullName + "/" + type;
     }
 
     /**

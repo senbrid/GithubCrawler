@@ -29,7 +29,7 @@ public class Repository {
 
     private String language;
 
-    private Long developerid;
+    private String developerLogin;
 
     private Date updated;
 
@@ -141,12 +141,12 @@ public class Repository {
         this.language = language == null ? null : language.trim();
     }
 
-    public Long getDeveloperid() {
-        return developerid;
+    public String getDeveloperLogin() {
+        return developerLogin;
     }
 
-    public void setDeveloperid(Long developerid) {
-        this.developerid = developerid;
+    public void setDeveloperLogin(String developerid) {
+        this.developerLogin = developerLogin;
     }
 
     public Date getUpdated() {

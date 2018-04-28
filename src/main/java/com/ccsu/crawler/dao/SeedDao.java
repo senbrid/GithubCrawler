@@ -12,7 +12,7 @@ public class SeedDao {
 
     private static String INSERT_SQL = "insert into tb_seed(seedLogin,state) values (?,?)";
     private static String SELECT_SQL = "select * from tb_seed where state = 1 limit 0,1";
-    private static String SELECTBYLOGIN_SQL = "select * from tb_seed where login = ?";
+    private static String SELECTBYLOGIN_SQL = "select * from tb_seed where seedLogin = ?";
     private static String UPDATE_SQL = "UPDATE tb_seed set state = 0 where id = ?";
 
     public SeedDao(){
