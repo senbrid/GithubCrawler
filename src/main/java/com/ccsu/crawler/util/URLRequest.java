@@ -32,14 +32,17 @@ public class URLRequest {
             connection.connect();
             // 获取所有响应头字段
             Map<String, List<String>> map = connection.getHeaderFields();
+            if(Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) == 0){
+                System.out.println("线程sleep"+ (Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis()) +"S");
+                Thread.sleep(Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis());
+            }
             System.out.println("X-RateLimit-Remaining:" + map.get("X-RateLimit-Remaining"));
-//            // 遍历所有的响应头字段
+            // 遍历所有的响应头字段
 //            for (String key : map.keySet()) {
 //                System.out.println(key + "--->" + map.get(key));
 //            }
             // 定义 BufferedReader输入流来读取URL的响应
-            in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
+            in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
             while ((line = in.readLine()) != null) {
                 result.append(line);
@@ -47,6 +50,7 @@ public class URLRequest {
         } catch (Exception e) {
             System.out.println("发送GET请求出现异常！" + e);
             e.printStackTrace();
+            return null;
         }
         // 使用finally块来关闭输入流
         finally {

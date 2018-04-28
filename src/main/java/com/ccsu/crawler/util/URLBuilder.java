@@ -21,7 +21,7 @@ public class URLBuilder {
      * @return String类型的URL地址
      */
     public static String urlFollowBuilder(String login , String followType) {
-        return USRS_PREFIX + login + "/" + followType;
+        return USRS_PREFIX + login + "/" + followType + "?per_page=100";
     }
 
     /**
@@ -31,7 +31,17 @@ public class URLBuilder {
      * @return String类型的URL地址
      */
     public static String urlDeveAllReposBuilder(String login) {
-        return USRS_PREFIX + login + "/repos";
+        return USRS_PREFIX + login + "/repos?sort=pushed&per_page=100";
+    }
+
+    /**
+     * 通过 项目全名 构建 详细信息的 URL
+     *
+     * @param fullName
+     * @return String类型的URL地址
+     */
+    public static String urlRepoPoBuilder(String fullName,String type) {
+        return REPO_PREFIX + fullName + "/" + type + "?per_page=100";
     }
 
     /**
@@ -42,16 +52,6 @@ public class URLBuilder {
      */
     public static String urlRepoBuilder(String fullName) {
         return REPO_PREFIX + fullName;
-    }
-
-    /**
-     * 通过 项目全名 构建 详细信息的 URL
-     *
-     * @param fullName
-     * @return String类型的URL地址
-     */
-    public static String urlRepoPoBuilder(String fullName,String type) {
-        return REPO_PREFIX + fullName + "/" + type;
     }
 
     /**

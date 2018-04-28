@@ -19,6 +19,14 @@ public class SeedDao {
         connection = MysqlConnect.getConnect();
     }
 
+    public void closed(){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public int insert(Seed seed){
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);

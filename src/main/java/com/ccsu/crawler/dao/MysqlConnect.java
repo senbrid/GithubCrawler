@@ -10,7 +10,7 @@ public class MysqlConnect {
     //驱动程序名
     private static String driver = "com.mysql.jdbc.Driver";
     //URL指向要访问的数据库名mydata
-    private static String url = "jdbc:mysql://localhost:3306/github";
+    private static String url = "jdbc:mysql://localhost:3306/github?useUnicode=true&characterEncoding=utf-8";
     //MySQL配置时的用户名
     private static String user = "root";
     //MySQL配置时的密码

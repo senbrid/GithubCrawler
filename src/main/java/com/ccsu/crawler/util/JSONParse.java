@@ -1,6 +1,5 @@
 package com.ccsu.crawler.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ccsu.crawler.model.*;
@@ -17,6 +16,9 @@ public class JSONParse {
      * @return List<JSONObject>
      */
     public static List<JSONObject> stringToJson(String string) {
+        if(string == null || string.isEmpty() || string.equals("[]")){
+            return null;
+        }
         if (string.substring(0, 1).equals("{")) {
             string = "[" + string + "]";
         }
@@ -39,11 +41,11 @@ public class JSONParse {
      * @return date
      */
     public static Date UTCStringtODate(String UTCStr){
-        String format;
-        Date date = null;
         if(UTCStr == null || UTCStr.isEmpty()){
             return null;
         }
+        String format;
+        Date date = null;
         if(UTCStr.length() == 20){
             format = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         }else {
@@ -69,6 +71,9 @@ public class JSONParse {
      * @return List<Fork>
      */
     public static List<Fork> listJSONObjectToListFork(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Fork> forkList = new ArrayList<Fork>();
         for (int i = 0; i < jsonObjectList.size(); i++) {
             Fork fork = new Fork();
@@ -85,6 +90,9 @@ public class JSONParse {
      * @return List<Star>
      */
     public static List<Star> listJSONObjectToListStar(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Star> starList = new ArrayList<Star>();
         for (int i = 0; i < jsonObjectList.size(); i++) {
             Star star = new Star();
@@ -98,9 +106,12 @@ public class JSONParse {
      * JSON list转换成fork list
      *
      * @param jsonObjectList
-     * @return List<Contributor>
+     * @return List<ContributorDao>
      */
     public static List<Contributor> listJSONObjectToListContributor(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Contributor> contributors = new ArrayList<Contributor>();
         for (int i = 0; i < jsonObjectList.size(); i++) {
             Contributor contributor = new Contributor();
@@ -118,6 +129,9 @@ public class JSONParse {
      * @return List<Language>
      */
     public static List<Language> listJSONObjectToListLanguage(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Language> languages = new ArrayList<Language>();
         for (Map.Entry<String, Object> entry : jsonObjectList.get(0).entrySet()) {
             //System.out.println(entry.getKey() + ":" + entry.getValue());
@@ -136,6 +150,9 @@ public class JSONParse {
      * @return List<Branch>
      */
     public static List<Branch> listJSONObjectToListBranch(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Branch> branchList = new ArrayList<Branch>();
         for (int i = 0; i < jsonObjectList.size(); i++) {
             Branch branch = new Branch();
@@ -152,6 +169,9 @@ public class JSONParse {
      * @return List<Developer>
      */
     public static List<Developer> listJSONObjectToListDeveloper(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Developer> developerList = new ArrayList<Developer>();
         for (int i = 0; i < jsonObjectList.size(); i++) {
             Developer developer = new Developer();
@@ -182,6 +202,9 @@ public class JSONParse {
      * @return List<Developer>
      */
     public static List<Developer> listJSONObjectToListDeveloperSearch(List<JSONObject> list) {
+        if(list == null || list.isEmpty()){
+            return null;
+        }
         List<Developer> developerList = new ArrayList<Developer>();
         for (int j = 0; j < list.size(); j++) {
             List<JSONObject> jsonObjectList = stringToJson(list.get(j).getString("items"));
@@ -197,6 +220,9 @@ public class JSONParse {
      * @return List<Developer>
      */
     public static List<Repository> listJSONObjectToListRepository(List<JSONObject> jsonObjectList) {
+        if(jsonObjectList == null || jsonObjectList.isEmpty()){
+            return null;
+        }
         List<Repository> repositoryList = new ArrayList<Repository>();
         for (int i = 0; i < jsonObjectList.size(); i++) {
             Repository repository = new Repository();
@@ -227,6 +253,9 @@ public class JSONParse {
      * @return List<Repository>
      */
     public static List<Repository> listJSONObjectToListRepositorySearch(List<JSONObject> list) {
+        if(list == null || list.isEmpty()){
+            return null;
+        }
         List<Repository> repositoryList = new ArrayList<Repository>();
         for (int j = 0; j < list.size(); j++) {
             List<JSONObject> jsonObjectList = stringToJson(list.get(j).getString("items"));

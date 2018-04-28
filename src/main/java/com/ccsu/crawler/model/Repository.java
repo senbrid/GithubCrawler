@@ -145,7 +145,7 @@ public class Repository {
         return developerLogin;
     }
 
-    public void setDeveloperLogin(String developerid) {
+    public void setDeveloperLogin(String developerLogin) {
         this.developerLogin = developerLogin;
     }
 

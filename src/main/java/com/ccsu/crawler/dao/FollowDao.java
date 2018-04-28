@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FollowDao {
+
     private Connection connection;
 
     private static String INSERT_SQL = "insert into tb_follow(followers,following) values (?,?)";
@@ -18,6 +19,14 @@ public class FollowDao {
 
     public FollowDao(){
         connection = MysqlConnect.getConnect();
+    }
+
+    public void closed(){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public int insert(Follow follow){
