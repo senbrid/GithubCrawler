@@ -34,7 +34,7 @@ public class MainApplication {
                     continue;
                 }
                 //判断该仓库是否符合要求，不符合就跳过
-                if (repository.getPushedAt().getTime() > (System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 3)) {
+                if (validate(repository)) {
                     //判断表中是否已存在该数据，存在就跳过
                     if (repositoryDao.select(repository.getId()) == null) {
                         count += 1;
@@ -55,6 +55,15 @@ public class MainApplication {
                 follow(login, "following");
             }
         }
+    }
+    //项目的筛选条件
+    public static boolean validate(Repository repository){
+        if(repository.getPushedAt().getTime() > (System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 3)){
+            if(repository.getStarCount() > 2000){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void addBranch(Repository repository) {
