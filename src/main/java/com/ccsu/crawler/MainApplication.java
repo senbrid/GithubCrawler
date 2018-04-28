@@ -6,19 +6,28 @@ import com.ccsu.crawler.model.*;
 import com.ccsu.crawler.util.JSONParse;
 import com.ccsu.crawler.util.URLBuilder;
 import com.ccsu.crawler.util.URLRequest;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class MainApplication {
 
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(MainApplication.class);
+
     public static void main(String args[]) {
         while (true) {
+            logger.info("--------------------begin--------------------");
             Seed seed = getSeed();
             if (seed == null) {
-                System.out.println("种子为空，请添加种子后重试");
-                break;
+                logger.info("种子为空，请添加种子后重试");
+                try {
+                    Thread.sleep(1000 * 60 *10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             addRepository(seed.getSeedlogin());
+            logger.info("---------------------end---------------------");
         }
     }
 
@@ -187,12 +196,12 @@ public class MainApplication {
     public static void addSeed(String login) {
         SeedDao seedDao = new SeedDao();
         //检查seed表中是否有该条记录，没有则添加
-        if (seedDao.selectByLogin(login) == null) {
+//        if (seedDao.selectByLogin(login) == null) {
             Seed seed = new Seed();
             seed.setSeedlogin(login);
             seed.setState(1);
             seedDao.insert(seed);
-        }
+//        }
         //关闭数据库连接
         seedDao.closed();
     }

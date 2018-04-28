@@ -1,5 +1,7 @@
 package com.ccsu.crawler.util;
 
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,8 +10,11 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class URLRequest {
+
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(URLRequest.class);
     /**
      * 向指定URL发送GET方法的请求
      *
@@ -33,10 +38,10 @@ public class URLRequest {
             // 获取所有响应头字段
             Map<String, List<String>> map = connection.getHeaderFields();
             if(Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) == 0){
-                System.out.println("线程sleep"+ (Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis()) +"S");
+                logger.info("线程sleep "+ (Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis()) +" 毫秒");
                 Thread.sleep(Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis());
             }
-            System.out.println("X-RateLimit-Remaining:" + map.get("X-RateLimit-Remaining"));
+            logger.info("X-RateLimit-Remaining:" + map.get("X-RateLimit-Remaining"));
             // 遍历所有的响应头字段
 //            for (String key : map.keySet()) {
 //                System.out.println(key + "--->" + map.get(key));
