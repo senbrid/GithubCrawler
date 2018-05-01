@@ -39,13 +39,13 @@ public class DeveloperDao {
             ps.executeUpdate();
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e+"");
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e+"");
+                logger.info("抛出异常：" + e);
             }
         }
     }
@@ -80,13 +80,13 @@ public class DeveloperDao {
             }
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e+"");
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e+"");
+                logger.info("抛出异常：" + e);
             }
         }
         return developer;

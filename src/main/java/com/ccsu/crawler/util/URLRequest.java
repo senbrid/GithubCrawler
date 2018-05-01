@@ -68,7 +68,7 @@ public class URLRequest {
                 }
             } catch (Exception e2) {
                 //e2.printStackTrace();
-                logger.info(""+e2);
+                logger.info("抛出异常：" + e2);
             }
         }
         return result.toString();

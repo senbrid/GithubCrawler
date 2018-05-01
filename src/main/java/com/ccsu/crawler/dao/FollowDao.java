@@ -27,13 +27,13 @@ public class FollowDao {
             ps.executeUpdate();
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e.getMessage());
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e.getMessage());
+                logger.info("抛出异常：" + e);
             }
         }
     }
@@ -49,13 +49,13 @@ public class FollowDao {
             count = ps.executeQuery().getRow();
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e.getMessage());
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e.getMessage());
+                logger.info("抛出异常：" + e);
             }
         }
         return count;
@@ -77,13 +77,13 @@ public class FollowDao {
             }
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e+"");
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e+"");
+                logger.info("抛出异常：" + e);
             }
         }
         return seed;

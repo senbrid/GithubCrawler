@@ -217,7 +217,6 @@ public class DaoOperation {
         seed.setState(1);
         SeedDao.insert(seed);
 //        }
-        logger.info("----------end add seed");
     }
 
     /**

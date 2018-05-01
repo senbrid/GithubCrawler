@@ -18,7 +18,7 @@ public class MainApplication {
                     Thread.sleep(1000 * 60 * 5);
                 } catch (InterruptedException e) {
                     //e.printStackTrace();
-                    logger.info(e.getMessage());
+                    logger.info("抛出异常：" + e);
                 }
             }else {
                 DaoOperation.addRepository(seed.getSeedlogin());

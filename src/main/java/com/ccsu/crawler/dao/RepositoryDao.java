@@ -15,7 +15,7 @@ public class RepositoryDao {
         try {
             connection = MysqlConnect.getConnect();
             @SuppressWarnings("SqlDialectInspection")
-            String INSERT_SQL = "set NAMES utf8mb4; insert into tb_repository" +
+            String INSERT_SQL = "insert into tb_repository" +
                     "(id,name,full_name,description,default_branch,created_at,updated_at,pushed_at,size," +
                     "star_count,watchers_count,forks_count,language,developerLogin)" +
                     "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
@@ -37,13 +37,13 @@ public class RepositoryDao {
             ps.executeUpdate();
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e+"");
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e+"");
+                logger.info("抛出异常：" + e);
             }
         }
     }
@@ -78,13 +78,13 @@ public class RepositoryDao {
             }
         } catch (SQLException e) {
             //e.printStackTrace();
-            logger.info(e+"");
+            logger.info("抛出异常：" + e);
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
                 //e.printStackTrace();
-                logger.info(e+"");
+                logger.info("抛出异常：" + e);
             }
         }
         return repository;

@@ -61,7 +61,7 @@ public class JSONParse {
             date = sdf.parse(UTCStr);
         } catch (ParseException e) {
             //e.printStackTrace();
-            logger.info(e + "");
+            logger.info("抛出异常：" + e);
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

@@ -18,7 +18,7 @@ public class MysqlConnect {
             Class.forName("com.mysql.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             //e.printStackTrace();
-            logger.info(e+"");
+            logger.info("抛出异常：" + e);
         }
     }
 
