@@ -37,11 +37,14 @@ public class URLRequest {
             connection.connect();
             // 获取所有响应头字段
             Map<String, List<String>> map = connection.getHeaderFields();
-            if(Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) == 0){
-                logger.info("线程sleep "+ (Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis()) +" 毫秒");
-                Thread.sleep(Integer.parseInt(map.get("X-RateLimit-Remaining").get(0)) - System.currentTimeMillis());
+            int remaining = Integer.parseInt(map.get("X-RateLimit-Remaining").get(0));
+            if(remaining == 0){
+                Long resetTime = new Long(map.get("X-RateLimit-Reset").get(0)) * 1000;
+                Long currentTime = System.currentTimeMillis();
+                logger.info("线程将sleep "+ (resetTime - currentTime) +" 毫秒");
+                Thread.sleep(resetTime - currentTime + 20);
             }
-            logger.info("X-RateLimit-Remaining:" + map.get("X-RateLimit-Remaining"));
+            logger.info("Remaining:" + remaining);
             // 遍历所有的响应头字段
 //            for (String key : map.keySet()) {
 //                System.out.println(key + "--->" + map.get(key));
@@ -53,8 +56,8 @@ public class URLRequest {
                 result.append(line);
             }
         } catch (Exception e) {
-            System.out.println("发送GET请求出现异常！" + e);
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.info("发送GET请求出现异常！" + e);
             return null;
         }
         // 使用finally块来关闭输入流
@@ -64,7 +67,8 @@ public class URLRequest {
                     in.close();
                 }
             } catch (Exception e2) {
-                e2.printStackTrace();
+                //e2.printStackTrace();
+                logger.info(""+e2);
             }
         }
         return result.toString();

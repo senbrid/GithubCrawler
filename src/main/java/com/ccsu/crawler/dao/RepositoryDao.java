@@ -1,33 +1,24 @@
 package com.ccsu.crawler.dao;
 
 import com.ccsu.crawler.model.Repository;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
 public class RepositoryDao {
 
-    private Connection connection;
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
 
-    private static String INSERT_SQL = "insert into tb_repository" +
-            "(id,name,full_name,description,default_branch,created_at,updated_at,pushed_at,size," +
-            "star_count,watchers_count,forks_count,language,developerLogin)" +
-            "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static String SELECT_SQL = "select * from tb_repository where id = ?";
+    private static Connection connection;
 
-    public RepositoryDao() {
-        connection = MysqlConnect.getConnect();
-    }
-
-    public void closed(){
+    public static void insert(Repository repository) {
         try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int insert(Repository repository) {
-        try {
+            connection = MysqlConnect.getConnect();
+            @SuppressWarnings("SqlDialectInspection")
+            String INSERT_SQL = "set NAMES utf8mb4; insert into tb_repository" +
+                    "(id,name,full_name,description,default_branch,created_at,updated_at,pushed_at,size," +
+                    "star_count,watchers_count,forks_count,language,developerLogin)" +
+                    "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setLong(1, repository.getId());
             ps.setString(2, repository.getName());
@@ -39,21 +30,31 @@ public class RepositoryDao {
             ps.setTimestamp(8, new Timestamp(repository.getPushedAt() == null ? 0 : repository.getPushedAt().getTime()));
             ps.setInt(9, repository.getSize());
             ps.setInt(10, repository.getStarCount());
-            ps.setInt(11, repository.getWatchersCount() == null ? 0 : repository.getWatchersCount());
-            ps.setInt(12, repository.getForksCount() == null ? 0 : repository.getForksCount());
+            ps.setInt(11, repository.getWatchersCount());
+            ps.setInt(12, repository.getForksCount());
             ps.setString(13, repository.getLanguage());
             ps.setString(14, repository.getDeveloperLogin());
-            return ps.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
     }
 
-    public Repository select(Long id) {
+    public static Repository select(Long id) {
         ResultSet rs;
         Repository repository = null;
         try {
+            connection = MysqlConnect.getConnect();
+            //noinspection SqlDialectInspection
+            String SELECT_SQL = "select * from tb_repository where id = ?";
             PreparedStatement ps = connection.prepareStatement(SELECT_SQL);
             ps.setLong(1, id);
             rs = ps.executeQuery();
@@ -75,11 +76,18 @@ public class RepositoryDao {
                 repository.setDeveloperLogin(rs.getString(14));
                 repository.setUpdated(rs.getDate(15));
             }
-            return repository;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
+        return repository;
     }
 
 }

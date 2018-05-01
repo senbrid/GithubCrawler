@@ -1,6 +1,7 @@
 package com.ccsu.crawler.dao;
 
 import com.ccsu.crawler.model.Language;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,32 +9,29 @@ import java.sql.SQLException;
 
 public class LanguageDao {
 
-    private Connection connection;
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
 
-    private static String INSERT_SQL = "insert into tb_language(repositoryId,language,size) values (?,?,?)";
+    private static Connection connection;
 
-    public LanguageDao(){
-        connection = MysqlConnect.getConnect();
-    }
-
-    public void closed(){
+    public static void insert(Language language){
         try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int insert(Language language){
-        try {
+            connection = MysqlConnect.getConnect();
+            String INSERT_SQL = "insert into tb_language(repositoryId,language,size) values (?,?,?)";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setLong(1,language.getRepositoryid());
             ps.setString(2,language.getLanguage());
             ps.setInt(3,language.getSize());
-            return ps.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
     }
 

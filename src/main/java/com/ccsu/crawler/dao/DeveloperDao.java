@@ -1,33 +1,25 @@
 package com.ccsu.crawler.dao;
 
 import com.ccsu.crawler.model.Developer;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.logging.Logger;
 
 public class DeveloperDao {
 
-    private Connection connection;
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
 
-    private static String INSERT_SQL = "insert into tb_developer " +
-                                "(id,login,avatar_url,name,company,location,blog,email,bio,type,public_repos," +
-                                "followers, following,created_at,updated_at) " +
-                                "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    private static String SELECT_SQL = "select * from tb_developer where id = ?";
+    private static Connection connection;
 
-    public DeveloperDao(){
-        connection = MysqlConnect.getConnect();
-    }
-
-    public void closed(){
+    public static void insert(Developer developer){
         try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int insert(Developer developer){
-        try {
+            connection = MysqlConnect.getConnect();
+            @SuppressWarnings("SqlDialectInspection")
+            String INSERT_SQL = "insert into tb_developer " +
+                    "(id,login,avatar_url,name,company,location,blog,email,bio,type,public_repos," +
+                    "followers, following,created_at,updated_at) " +
+                    "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setLong(1,developer.getId());
             ps.setString(2,developer.getLogin());
@@ -44,17 +36,26 @@ public class DeveloperDao {
             ps.setInt(13,developer.getFollowing() == null?0:developer.getFollowing());
             ps.setTimestamp(14,new Timestamp(developer.getCreatedAt() ==  null?0:developer.getCreatedAt().getTime()));
             ps.setTimestamp(15,new Timestamp(developer.getUpdatedAt() ==  null?0:developer.getUpdatedAt().getTime()));
-            return ps.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
     }
 
-    public Developer select(Long id){
+    public static Developer select(Long id){
         ResultSet rs;
         Developer developer = null;
         try {
+            connection = MysqlConnect.getConnect();
+            String SELECT_SQL = "select * from tb_developer where id = ?";
             PreparedStatement ps = connection.prepareStatement(SELECT_SQL);
             ps.setLong(1,id);
             rs = ps.executeQuery();
@@ -77,10 +78,17 @@ public class DeveloperDao {
                 developer.setUpdatedAt(rs.getDate(15));
                 developer.setUpdated(rs.getDate(16));
             }
-            return developer;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
+        return developer;
     }
 }

@@ -2,6 +2,7 @@ package com.ccsu.crawler.dao;
 
 import com.ccsu.crawler.model.Branch;
 import com.ccsu.crawler.model.Seed;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,31 +10,28 @@ import java.sql.SQLException;
 
 public class BranchDao {
 
-    private Connection connection;
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
 
-    private static String INSERT_SQL = "insert into tb_branch(repositoryId,branchName) values (?,?)";
+    private static Connection connection;
 
-    public BranchDao(){
-        connection = MysqlConnect.getConnect();
-    }
-
-    public void closed(){
+    public static void insert(Branch branch){
         try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int insert(Branch branch){
-        try {
+            connection = MysqlConnect.getConnect();
+            String INSERT_SQL = "insert into tb_branch(repositoryId,branchName) values (?,?)";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setLong(1,branch.getRepositoryid());
             ps.setString(2,branch.getBranchname());
-            return ps.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
     }
 

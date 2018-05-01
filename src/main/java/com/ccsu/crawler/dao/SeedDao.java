@@ -1,6 +1,7 @@
 package com.ccsu.crawler.dao;
 
 import com.ccsu.crawler.model.Seed;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,52 +9,58 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SeedDao {
-    private Connection connection;
 
-    private static String INSERT_SQL = "insert into tb_seed(seedLogin,state) values (?,?)";
-    private static String SELECT_SQL = "select * from tb_seed where state = 1 limit 0,1";
-    private static String SELECTBYLOGIN_SQL = "select * from tb_seed where seedLogin = ?";
-    private static String UPDATE_SQL = "UPDATE tb_seed set state = 0 where id = ?";
+    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
 
-    public SeedDao(){
-        connection = MysqlConnect.getConnect();
-    }
+    private static Connection connection;
 
-    public void closed(){
+    public static void insert(Seed seed){
         try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int insert(Seed seed){
-        try {
+            connection = MysqlConnect.getConnect();
+            String INSERT_SQL = "insert into tb_seed(seedLogin,state) values (?,?)";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setString(1,seed.getSeedlogin());
             ps.setInt(2,seed.getState());
-            return ps.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
     }
 
-    public int update(int id){
+    public static void update(int id){
         try {
+            connection = MysqlConnect.getConnect();
+            String UPDATE_SQL = "UPDATE tb_seed set state = 0 where id = ?";
             PreparedStatement ps = connection.prepareStatement(UPDATE_SQL);
             ps.setInt(1,id);
-            return ps.executeUpdate();
+            ps.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
     }
 
-    public Seed select(){
+    public static Seed select(){
         ResultSet rs;
         Seed seed = null;
         try {
+            connection = MysqlConnect.getConnect();
+            String SELECT_SQL = "select * from tb_seed where state = 1 limit 0,1";
             PreparedStatement ps = connection.prepareStatement(SELECT_SQL);
             rs = ps.executeQuery();
             while (rs.next()){
@@ -63,17 +70,26 @@ public class SeedDao {
                 seed.setState(rs.getInt(3));
                 seed.setUpdated(rs.getDate(4));
             }
-            return seed;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
+        return seed;
     }
 
-    public Seed selectByLogin(String login){
+    public static Seed selectByLogin(String login){
         ResultSet rs;
         Seed seed = null;
         try {
+            connection = MysqlConnect.getConnect();
+            String SELECTBYLOGIN_SQL = "select * from tb_seed where seedLogin = ?";
             PreparedStatement ps = connection.prepareStatement(SELECTBYLOGIN_SQL);
             ps.setString(1,login);
             rs = ps.executeQuery();
@@ -84,10 +100,17 @@ public class SeedDao {
                 seed.setState(rs.getInt(3));
                 seed.setUpdated(rs.getDate(4));
             }
-            return seed;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            //e.printStackTrace();
+            logger.info(e+"");
+        }finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                //e.printStackTrace();
+                logger.info(e+"");
+            }
         }
+        return seed;
     }
 }
