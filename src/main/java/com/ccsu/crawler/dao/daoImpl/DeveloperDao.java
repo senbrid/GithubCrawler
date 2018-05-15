@@ -1,21 +1,22 @@
-package com.ccsu.crawler.dao;
+package com.ccsu.crawler.dao.daoImpl;
 
+import com.ccsu.crawler.dao.Dao;
 import com.ccsu.crawler.model.Developer;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
-import java.util.logging.Logger;
+import java.util.Map;
 
-public class DeveloperDao {
+import com.ccsu.crawler.utils.MysqlConnect;
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
+public class DeveloperDao implements Dao<Developer> {
 
-    private static Connection connection;
+    private Connection connection;
 
-    public static void insert(Developer developer){
+    @Override
+    public int insert(Developer developer){
+        int count = 0;
         try {
             connection = MysqlConnect.getConnect();
-            @SuppressWarnings("SqlDialectInspection")
             String INSERT_SQL = "insert into tb_developer " +
                     "(id,login,avatar_url,name,company,location,blog,email,bio,type,public_repos," +
                     "followers, following,created_at,updated_at) " +
@@ -36,21 +37,22 @@ public class DeveloperDao {
             ps.setInt(13,developer.getFollowing() == null?0:developer.getFollowing());
             ps.setTimestamp(14,new Timestamp(developer.getCreatedAt() ==  null?0:developer.getCreatedAt().getTime()));
             ps.setTimestamp(15,new Timestamp(developer.getUpdatedAt() ==  null?0:developer.getUpdatedAt().getTime()));
-            ps.executeUpdate();
+            count = ps.executeUpdate();
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
+        return count;
     }
 
-    public static Developer select(Long id){
+    @Override
+    public Developer select(Map map) {
+        Long id = (Long) map.get("id");
         ResultSet rs;
         Developer developer = null;
         try {
@@ -79,16 +81,20 @@ public class DeveloperDao {
                 developer.setUpdated(rs.getDate(16));
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
         return developer;
     }
+
+    @Override
+    public int update(Map map) {
+        return 0;
+    }
+
 }

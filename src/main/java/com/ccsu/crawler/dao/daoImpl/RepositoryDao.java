@@ -1,20 +1,20 @@
-package com.ccsu.crawler.dao;
+package com.ccsu.crawler.dao.daoImpl;
 
+import com.ccsu.crawler.dao.Dao;
 import com.ccsu.crawler.model.Repository;
-import org.slf4j.LoggerFactory;
+import com.ccsu.crawler.utils.MysqlConnect;
 
 import java.sql.*;
+import java.util.Map;
 
-public class RepositoryDao {
+public class RepositoryDao implements Dao<Repository> {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
+    private Connection connection;
 
-    private static Connection connection;
-
-    public static void insert(Repository repository) {
+    public int insert(Repository repository) {
+        int count = 0;
         try {
             connection = MysqlConnect.getConnect();
-            @SuppressWarnings("SqlDialectInspection")
             String INSERT_SQL = "insert into tb_repository" +
                     "(id,name,full_name,description,default_branch,created_at,updated_at,pushed_at,size," +
                     "star_count,watchers_count,forks_count,language,developerLogin)" +
@@ -34,23 +34,24 @@ public class RepositoryDao {
             ps.setInt(12, repository.getForksCount());
             ps.setString(13, repository.getLanguage());
             ps.setString(14, repository.getDeveloperLogin());
-            ps.executeUpdate();
+            count = ps.executeUpdate();
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
+        return count;
     }
 
-    public static Repository select(Long id) {
+    @Override
+    public Repository select(Map map) {
         ResultSet rs;
         Repository repository = null;
+        Long id = (Long)map.get("id");
         try {
             connection = MysqlConnect.getConnect();
             //noinspection SqlDialectInspection
@@ -77,17 +78,20 @@ public class RepositoryDao {
                 repository.setUpdated(rs.getDate(15));
             }
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
         return repository;
+    }
+
+    @Override
+    public int update(Map map) {
+        return 0;
     }
 
 }

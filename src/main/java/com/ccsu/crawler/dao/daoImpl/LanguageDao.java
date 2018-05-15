@@ -1,19 +1,20 @@
-package com.ccsu.crawler.dao;
+package com.ccsu.crawler.dao.daoImpl;
 
+import com.ccsu.crawler.dao.Dao;
 import com.ccsu.crawler.model.Language;
-import org.slf4j.LoggerFactory;
+import com.ccsu.crawler.utils.MysqlConnect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
-public class LanguageDao {
+public class LanguageDao implements Dao<Language> {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
+    private Connection connection;
 
-    private static Connection connection;
-
-    public static void insert(Language language){
+    public int insert(Language language){
+        int count = 0;
         try {
             connection = MysqlConnect.getConnect();
             String INSERT_SQL = "insert into tb_language(repositoryId,language,size) values (?,?,?)";
@@ -21,18 +22,27 @@ public class LanguageDao {
             ps.setLong(1,language.getRepositoryid());
             ps.setString(2,language.getLanguage());
             ps.setInt(3,language.getSize());
-            ps.executeUpdate();
+            count = ps.executeUpdate();
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
+        return count;
+    }
+
+    @Override
+    public Language select(Map map) {
+        return null;
+    }
+
+    @Override
+    public int update(Map map) {
+        return 0;
     }
 
 }

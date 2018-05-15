@@ -1,38 +1,48 @@
-package com.ccsu.crawler.dao;
+package com.ccsu.crawler.dao.daoImpl;
 
+import com.ccsu.crawler.dao.Dao;
 import com.ccsu.crawler.model.Fork;
-import com.ccsu.crawler.model.Star;
-import org.slf4j.LoggerFactory;
+import com.ccsu.crawler.utils.MysqlConnect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
-public class ForkDao {
+public class ForkDao implements Dao<Fork> {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
+    private Connection connection;
 
-    private static Connection connection;
-
-    public static void insert(Fork fork){
+    @Override
+    public int insert(Fork fork){
+        int count = 0;
         try {
             connection = MysqlConnect.getConnect();
             String INSERT_SQL = "insert into tb_fork(repositoryId,forkLogin) values (?,?)";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setLong(1,fork.getRepositoryid());
             ps.setString(2,fork.getForklogin());
-            ps.executeUpdate();
+            count = ps.executeUpdate();
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
+        return count;
+    }
+
+    @Override
+    public Fork select(Map map) {
+        return null;
+    }
+
+    @Override
+    public int update(Map map) {
+        return 0;
     }
 
 }

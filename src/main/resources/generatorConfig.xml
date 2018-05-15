@@ -8,7 +8,7 @@
     <properties resource="jdbc.properties"></properties>
 
     <!--指定特定数据库的jdbc驱动jar包的位置-->
-    <classPathEntry location="C:\Users\93587\.m2\repository\mysql\mysql-connector-java\5.1.5\mysql-connector-java-5.1.5.jar"/>
+    <classPathEntry location="C:\Users\Joke\.m2\repository\mysql\mysql-connector-java\5.1.5\mysql-connector-java-5.1.5.jar"/>
     <context id="default" targetRuntime="MyBatis3">
 
         <!-- optional，旨在创建class时，对注释进行控制 -->
@@ -61,13 +61,15 @@
                 type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
         -->
         <javaClientGenerator targetPackage="com.graduation.dao"
-                             targetProject="src/test/java" type="ANNOTATEDMAPPER">
+                             targetProject="src/test/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
 
         <table tableName="tb_developer" domainObjectName="Developer"/>
-        <table tableName="tb_repository" domainObjectName="Repository"/>
+        <table tableName="tb_repository" domainObjectName="Repository">
+            <columnOverride column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </table>
         <table tableName="tb_star" domainObjectName="Star"/>
         <table tableName="tb_fork" domainObjectName="Fork"/>
         <table tableName="tb_follow" domainObjectName="Follow"/>

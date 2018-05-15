@@ -1,38 +1,47 @@
-package com.ccsu.crawler.dao;
+package com.ccsu.crawler.dao.daoImpl;
 
+import com.ccsu.crawler.dao.Dao;
 import com.ccsu.crawler.model.Branch;
-import com.ccsu.crawler.model.Seed;
-import org.slf4j.LoggerFactory;
+import com.ccsu.crawler.utils.MysqlConnect;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Map;
 
-public class BranchDao {
+public class BranchDao implements Dao<Branch> {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(DeveloperDao.class);
+    private Connection connection;
 
-    private static Connection connection;
-
-    public static void insert(Branch branch){
+    public int insert(Branch branch){
+        int count = 0;
         try {
             connection = MysqlConnect.getConnect();
             String INSERT_SQL = "insert into tb_branch(repositoryId,branchName) values (?,?)";
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setLong(1,branch.getRepositoryid());
             ps.setString(2,branch.getBranchname());
-            ps.executeUpdate();
+            count = ps.executeUpdate();
         } catch (SQLException e) {
-            //e.printStackTrace();
-            logger.info("抛出异常：" + e);
+            e.printStackTrace();
         }finally {
             try {
                 connection.close();
             } catch (SQLException e) {
-                //e.printStackTrace();
-                logger.info("抛出异常：" + e);
+                e.printStackTrace();
             }
         }
+        return count;
+    }
+
+    @Override
+    public Branch select(Map map) {
+        return null;
+    }
+
+    @Override
+    public int update(Map map) {
+        return 0;
     }
 
 }

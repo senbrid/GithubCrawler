@@ -1,10 +1,9 @@
-package com.ccsu.crawler.util;
+package com.ccsu.crawler.utils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.ccsu.crawler.dao.DeveloperDao;
 import com.ccsu.crawler.model.*;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +11,7 @@ import java.util.*;
 
 public class JSONParse {
 
-    private static org.slf4j.Logger logger = LoggerFactory.getLogger(JSONParse.class);
+    private static Logger logger = Logger.getLogger(JSONParse.class);
 
     /**
      * 字符串转换成JSON数组

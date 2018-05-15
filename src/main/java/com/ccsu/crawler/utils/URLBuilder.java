@@ -1,4 +1,4 @@
-package com.ccsu.crawler.util;
+package com.ccsu.crawler.utils;
 
 public class URLBuilder {
 
